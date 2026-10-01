@@ -92,6 +92,12 @@ source("phenoEO4PM.R")
 source("plotEO4PM.R")
 source("EO4PM_QF_bitDecoder.R")
 
+# Display help in Rstudio viewer for the imported functions
+source_help("smoothEO4PM")
+source_help("phenoEO4PM")
+source_help("plotEO4PM")
+source_help("QFbitDecoder")
+
 # Read input NetCDF raster time series
 input_file <- "/path/to/S2_L3A_TS_10m_LAI.nc"
 r <- terra::rast(input_file)
