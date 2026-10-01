@@ -1,11 +1,8 @@
 # EO4PM
-EO4PM (Earth Observation for Phenological Metrics) is an automated, transferable algorithm written in R designed to extract Land Surface Phenology (LSP) metrics from dense satellite Earth Observation (EO) time series
+**EO4PM (Earth Observation for Phenological Metrics)** is an automated, transferable algorithm written in R designed to extract Land Surface Phenology (LSP) metrics from dense satellite Earth Observation (EO) time series
 
 [![R-build](https://img.shields.io/badge/R->=%204.0.0-blue.svg)](https://www.r-project.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL--v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Paper MDPI](https://img.shields.io/badge/DOI-10.3390%2Frs14030721-green.svg)](https://doi.org/10.3390/rs14030721)
-
-**EO4PM (Earth Observation for Phenological Metrics)** is an automated, transferable algorithm written in R designed to extract Land Surface Phenology (LSP) metrics and temporal statistics from dense satellite Earth Observation (EO) time series.
 
 Version 2 introduces major upgrades in command-line interface (CLI) mode, advanced temporal smoothing routines, expanded phenological metrics extraction, fallback fitting routines, C++-optimized multi-cycle cycle cutting, and a modular architecture providing standalone R functions.
 
@@ -13,8 +10,8 @@ Version 2 introduces major upgrades in command-line interface (CLI) mode, advanc
 
 ## 🔑 Key Strengths
 
-- **User-Defined Vegetation Indices & Biophysical Parameters (BIOPAR):** Flexible input compatibility with standard vegetation indices (e.g., NDVI, EVI, NIRv, kNDVI) as well as biophysical parameters like Leaf Area Index (**LAI**), FAPAR, and FCOVER. Using LAI helps avoid signal saturation over dense forest canopies and high-biomass ecosystems.
-- **Sensor Agnostic:** Fully independent of satellite platform or sensor type. Works seamlessly with Sentinel-2, Landsat, MODIS, virtual constellations (e.g., Harmonized Landsat-Sentinel - HLS), and Synthetic Aperture Radar (SAR) time series.
+- **User-Defined Vegetation Indices & Biophysical Parameters (BIOPAR):** Flexible input compatibility with standard vegetation indices (e.g., NDVI, EVI, NIRv, kNDVI) as well as biophysical parameters like Leaf Area Index (**LAI**), FAPAR, and FCOVER.
+- **Sensor Agnostic:** Fully independent of satellite platform or sensor type. Works seamlessly with Sentinel-2, Landsat, MODIS, PlanetScope, virtual constellations (e.g., Harmonized Landsat-Sentinel - HLS), and Synthetic Aperture Radar (SAR) time series.
 - **R Ecosystem & CLI Ready:** Modular code structure supporting both interactive R sessions and automated high-performance CLI/batch execution.
 
 ---
@@ -69,14 +66,12 @@ If you use EO4PM in your research, please cite the foundational paper:
 EO4PM v2 requires **R (>= 4.0.0)** and the following R packages:
 
 ```R
-install.packages(c("sf", "terra", "phenofit", "ggplot2", "gridExtra", "stinepack", "ptw"))
+install.packages(c("sf", "terra", "ncdf4", "data.table", "phenofit", "ggplot2", "gridExtra", "optparse", "progressr", "future.callr", "doFuture"))
 ```
 
 ---
 
 ## 💻 Usage Examples
-
-The following examples are based on `phenoEO4PM_examples.R`.
 
 ### 1. Single-Pixel Processing Pipeline
 
@@ -107,7 +102,7 @@ obs_dates <- as.integer(as.Date(time_dim, tz = "UTC"))
 tout <- seq(from = obs_dates[1], to = obs_dates[length(obs_dates)], by = 1)
 
 # Target pixel index
-p <- 101
+p <- 1
 
 # 1. Temporal smoothing
 tsg <- smoothEO4PM(y = as.double(r[p]), t = obs_dates, tout = tout)
@@ -252,7 +247,7 @@ EO4PM_ggplot <- plotEO4PM(
 
 ## 📊 Complete Phenological Variables Table
 
-Below is the updated list of variables provided by EO4PM v2 (as detailed in `EO4PM_variables_table.docx`):
+Below is the updated list of variables provided by EO4PM v2
 
 | Variable Name | Description / Long Name |
 | :--- | :--- |
@@ -301,6 +296,7 @@ Below is the updated list of variables provided by EO4PM v2 (as detailed in `EO4
 | `VCx_STI_AG_difference` | Seasonal Time Integrated Asymmetric Gaussian difference LAI value |
 | `VCx_QF` | Quality Flags |
 
+where VCx stands for the specifica vegetation cycle (e.g., VC1: Vegetation Cycle 1)
 ---
 
 ## 🚩 Quality Flags (Bit Decoding)
